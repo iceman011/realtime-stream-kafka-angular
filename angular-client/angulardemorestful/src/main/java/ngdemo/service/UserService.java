@@ -1,8 +1,6 @@
 package ngdemo.service;
 
-import ngdemo.service.*;
-import ngdemo.domain.*;
-
+import ngdemo.domain.User;
 
 public class UserService {
 

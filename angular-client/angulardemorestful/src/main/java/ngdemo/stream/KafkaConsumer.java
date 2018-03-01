@@ -107,8 +107,53 @@ import java.util.regex.Pattern;
  */
 public class KafkaConsumer {
 
-  public static void start(final String[] args) throws Exception {
-    final String bootstrapServers = args.length > 0 ? args[0] : "localhost:9092";
+
+static void runConsumer() throws InterruptedException {
+
+public static void start2() {
+
+final Properties props = new Properties();
+      props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+      props.put(ConsumerConfig.GROUP_ID_CONFIG,"KafkaExampleConsumer");
+      props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,LongDeserializer.class.getName());
+      props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class.getName());
+
+      // Create the consumer using props.
+      final Consumer<Long, String> consumer =
+                                  new KafkaConsumer<>(props);
+
+        //final Consumer<Long, String> consumer = createConsumer();
+	consumer.subscribe(Collections.singletonList(TOPIC));
+
+        final int giveUp = 100;   int noRecordsCount = 0;
+
+        while (true) {
+            final ConsumerRecords<Long, String> consumerRecords =
+                    consumer.poll(1000);
+
+            if (consumerRecords.count()==0) {
+                noRecordsCount++;
+                if (noRecordsCount > giveUp) break;
+                else continue;
+            }
+
+            consumerRecords.forEach(record -> {
+                System.out.printf("Consumer Record:(%d, %s, %d, %d)\n",
+                        record.key(), record.value(),
+                        record.partition(), record.offset());
+            });
+
+            consumer.commitAsync();
+        }
+        consumer.close();
+        System.out.println("DONE");
+    }
+
+
+
+
+  public static void start() {
+    final String bootstrapServers = "localhost:9092";//args.length > 0 ? args[0] : "localhost:9092";
     final Properties streamsConfiguration = new Properties();
     // Give the Streams application a unique name.  The name must be unique in the Kafka cluster
     // against which the application is run.
