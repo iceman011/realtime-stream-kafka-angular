@@ -1,4 +1,4 @@
-package ngdemo.stream;
+package ngdemo.client;
 
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.*;
@@ -49,6 +49,10 @@ public class KafkaConsumerClient {
         final Consumer<Long, String> consumer = createConsumer();
 
         final int giveUp = 100;   int noRecordsCount = 0;
+
+
+
+      System.out.println("Consumer Started");
 
         while (true) {
             final ConsumerRecords<Long, String> consumerRecords =

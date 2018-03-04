@@ -50,6 +50,10 @@ public class KafkaConsumerClient {
 
         final int giveUp = 100;   int noRecordsCount = 0;
 
+
+
+      System.out.println("Consumer Started");
+
         while (true) {
             final ConsumerRecords<Long, String> consumerRecords =
                     consumer.poll(1000);
