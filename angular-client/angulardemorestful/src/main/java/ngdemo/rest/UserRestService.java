@@ -2,7 +2,8 @@ package ngdemo.rest;
 
 import ngdemo.domain.User;
 import ngdemo.service.UserService;
-import ngdemo.stream.KafkaConsumer;
+import ngdemo.stream.KafkaConsumerExample;
+import ngdemo.client.KafkaConsumerClient;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,7 +25,7 @@ public class UserRestService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getWiki() {
-        KafkaConsumer.start();
+        KafkaConsumerClient.runConsumer();
 	return "GetWikiCalled";
     }
 
